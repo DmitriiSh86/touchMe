@@ -1,0 +1,9 @@
+.keyboard-block{
+    width: 90%;
+    max-height: 400px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+}

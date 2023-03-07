@@ -1,0 +1,7 @@
+.screen-block__statistic{
+    min-width: 200px;
+    min-height: 200px;
+    background-color: #99FFCC;
+    border-radius: 10px;
+    box-sizing: border-box;
+}

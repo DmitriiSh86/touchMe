@@ -1,3 +1,11 @@
 @import url(../vendor/normalize.css);
 @import url(../vendor/fonts/fonts.css);
 @import url(../blocks/root/root.css);
+@import url(../blocks/header/header.css);
+@import url(../blocks/screen-block/screen-block.css);
+@import url(../blocks/screen-block/__screen/screen-block__screen.css);
+@import url(../blocks/screen-block/__info/screen-block__info.css);
+@import url(../blocks/screen-block/__statistic/screen-block__statistic.css);
+@import url(../blocks/keyboard-block/keyboard-block.css);
+@import url(../blocks/keyboard-block/__letter/keyboard-block__letter.css);
+@import url(../blocks/keyboard-block/__digital/keyboard-block__digital.css);
