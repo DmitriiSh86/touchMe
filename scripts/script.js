@@ -1,5 +1,5 @@
 const lessons = {
-    1: '78946 55477894 6554',
+    1: 'sghfgjfjfj',
     2: '78946 55477894 6554'
 };
 
@@ -10,12 +10,30 @@ let textNext = document.querySelector('.screen-block__next');
 let lesson = lessons[1];
 
 const checkNumButton = (item) => {
-    return ((item>95 && item<112) || (item===32));
+    return true;
 }
 
 const checkKeyAndNextLetter = (item) => {
     return ((item>95 && item<112) || (item===32));
 }
+
+const shiftButtonPressDown = () => {
+    let buttonAll = document.querySelectorAll('.keyboard-block__letter');
+    let buttonAllList = Array.from(buttonAll);
+    buttonAllList.forEach(element => {
+        element.textContent = element.textContent.toUpperCase()
+    });
+}
+
+const shiftButtonPressUp = () => {
+    let buttonAll = document.querySelectorAll('.keyboard-block__letter');
+    let buttonAllList = Array.from(buttonAll);
+    buttonAllList.forEach(element => {
+        element.textContent = element.textContent.toLowerCase()
+    });
+}
+
+
 
 
 textNext.textContent = lesson[0];
@@ -30,6 +48,12 @@ nextKeyAddClass.classList.add('keyboard-block__type_next-key');
 
 
 document.addEventListener('keydown', function (evt) {
+    if (evt.key==='Shift') {
+        shiftButtonPressDown();
+        document.addEventListener('keyup', function (evt){
+            shiftButtonPressUp();
+        });     
+    }
     if (checkNumButton(evt.keyCode)) {
         if (evt.key === textNext.textContent){
             const now = document.getElementById(textNext.textContent);

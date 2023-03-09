@@ -1,13 +1,17 @@
 .keyboard-block__letters{
-    width: 1000px;
+    width: 100%;
     margin: 10px;
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2px;
 }
 
+
+
 .keyboard-block__letter{
-    width: 400px;
+    width: 75px;
     height: 74.4px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 10px;
@@ -16,9 +20,34 @@
     padding: 0;
     font-size: 30px;
     line-height: 48px;
-    font-weight: 700;
+    font-weight: 500;
     display: flex;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
+}
+
+.letter-row{
+    display: flex;
+    gap: 2px;
+}
+
+.letter-long-tab{
+    width: 112px;
+}
+
+.letter-long-bsp{
+    width: 114px;
+}
+
+.letter-long-capslock{
+    width: 132px;
+}
+
+.letter-long-shift{
+    width: 171.4px;
+}
+
+.keyboard-block__space{
+    width: 576px;
 }

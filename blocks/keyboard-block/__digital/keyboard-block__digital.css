@@ -22,7 +22,7 @@
     padding: 0;
     font-size: 30px;
     line-height: 48px;
-    font-weight: 700;
+    font-weight: 500;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,7 +43,9 @@
     background-image: url(../../../images/next-key.svg);
 }
 
-
+.background-off{
+    background-color: white;
+}
 
 .keyboard-block__numlock{
     margin: 0;
@@ -147,11 +149,11 @@
 }
 
 .keyboard-block__ring{
-    background-color: #FFFF99;
+    background-color: #99CCFF;
 }
 
 .keyboard-block__little{
-    background-color: #CCFFFF;
+    background-color: #FFCC99;
 }
 
 .keyboard-block__type_wrong-key{
