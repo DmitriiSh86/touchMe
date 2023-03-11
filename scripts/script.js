@@ -1,58 +1,63 @@
 const lessons = {
-    1: "fff fsf ssfs ffsffff fsf ssfs ffsffff fsf ssfs ffsffff fsf ssfs ffsf",
-    2: '11 111 1111',
-    3: 'sssssssss',
-    4: '1111111111'
+    1: {
+        name: 'individual',
+        about: 'a particular being or thing as distinguished from a class, species, or collection'
+    },
+    2: {
+        name: 'specific', 
+        about: 'sharing or being those properties of something that allow it to be referred to a particular category'
+    },
+    3: {
+        name: 'principle',
+        about: 'a comprehensive and fundamental law, doctrine, or assumption'
+    }
+    
 };
 
+const textAbout = document.querySelector('.about');
 const textFuture = document.querySelector('.screen-block__future');
 const textPast = document.querySelector('.screen-block__past');
 const textNext = document.querySelector('.screen-block__next');
-const buttonShift = document.getElementById('Shift');
+const text = document.querySelectorAll('.text');
+const buttonShiftLeft = document.getElementById('Shift-left');
+const buttonShiftRight = document.getElementById('Shift-right');
 let letterNext = {
     key: '',
     shiftEnable: false
 };
 
+let i =1;
+
+let lesson = setUpLesson(lessons, i);
 
 
-
-
-
-
-const checkKeyAndNextLetter = (item) => {
-    return ((item>95 && item<112) || (item===32));
-}
-
-
-
-const setBackgroundNextKey = (item, shift) => {
+function setBackgroundNextKey(item, shift) {
     item.classList.add('keyboard-block__type_next-key');
-    
-    if (shift.shiftEnable === true) {
-        buttonShift.classList.add('keyboard-block__type_next-key');
+
+    if (shift.shiftEnable === true)  {
+        if (item.classList.contains('left')) {
+            buttonShiftLeft.classList.add('keyboard-block__type_next-key');
+        } else {
+            buttonShiftRight.classList.add('keyboard-block__type_next-key');
+        }
     }
-}
+};
 
 const removeBackgroundNextKey = (item, shift) => {
     item.classList.remove('keyboard-block__type_next-key');
     if (shift.shiftEnable === true) {
-        buttonShift.classList.remove('keyboard-block__type_next-key');
         shift.shiftEnable = false;
+        if (buttonShiftRight.classList.contains('keyboard-block__type_next-key')) {
+            buttonShiftRight.classList.remove('keyboard-block__type_next-key');
+        } else {
+            buttonShiftLeft.classList.remove('keyboard-block__type_next-key');
+        }        
     }
 }
-let i =1;
-
-
-
-
-let lesson = setUpLesson(lessons, i);
 
 const checkNumButton = () => {
     return lesson.length >=1;
-}
-
-const pressedKey = {};
+};
 
 const changeNextKey = () => {
     const now = document.getElementById(letterNext.key);
@@ -83,17 +88,21 @@ const wrongNextKey = (key) => {
     }
 }
 
-const getPressedKeyObject = (item) => {
-    pressedKey.shift = item.shiftKey;
-    pressedKey.key = item.key;
-    
+function removeHandleKey() {
+    document.removeEventListener("keydown", handleKey);
+};
 
-    return pressedKey;
-}
-
+function setHandleKey() {
+    document.addEventListener("keydown", handleKey);
+};
 
 function handleKey (evt) {
-
+    if (evt.key === '`') {
+        const list = Array.from(document.querySelectorAll('.text'));
+        list.forEach((element) => {
+            element.classList.toggle('text-invisible');                       
+    });
+    }
     if (checkNumButton()) {
         if (letterNext.shiftEnable === true) {
             if ((evt.key.toLowerCase() === letterNext.key) && (evt.shiftKey === true)) {
@@ -123,16 +132,6 @@ function handleKey (evt) {
     }
 };
 
-function removeHandleKey() {
-    document.removeEventListener("keydown", handleKey);
-};
-
-function setHandleKey() {
-    document.addEventListener("keydown", handleKey);
-};
-
-
-
 function checkLetterNext(item) {
     if ((item !== ',') && (item !== '.') && (item !== '/') && (item !== '-') && (item !== '=') && (item !== '[')
     && (item !== ']') && (item !== ';') && (item !== '*') && (item !== "'")) {
@@ -140,25 +139,26 @@ function checkLetterNext(item) {
     } else {
         return false;
     }
-}
-
+};
 
 function checkUpperCase(symbol) {
     letterNext.int = Number(symbol.key[0]);
     
-    if ((symbol.key === symbol.key.toUpperCase()) && (Number.isInteger(letterNext.int) !== true) && (checkLetterNext(letterNext.key) === true)) {      
-    console.log('letterNext.int');
-    symbol.key = symbol.key.toLowerCase()
-    symbol.shiftEnable = true;    
+    if ((symbol.key === symbol.key.toUpperCase()) && (Number.isInteger(letterNext.int) !== true) && (checkLetterNext(letterNext.key) === true)) {
+        symbol.key = symbol.key.toLowerCase()
+        symbol.shiftEnable = true;
     }
-    else symbol.shiftEnable = false;
-    return symbol;
-}
+    else {
+        symbol.shiftEnable = false;
+        return symbol;
+    }
+};
 
 function setUpLesson(lessonsList, i) {
     setHandleKey();
-    if (i <= Object.keys(lessonsList).length) {
-        let lesson = lessonsList[i];
+    if (i <= Object.keys(lessonsList).length) {        
+        let lesson = lessonsList[i].name;
+        textAbout.textContent = lessonsList[i].about;
         textNext.textContent = lesson[0];
         lesson = lesson.slice(1);
         textPast.textContent = '';
@@ -172,4 +172,4 @@ function setUpLesson(lessonsList, i) {
     else {
         removeHandleKey();
     }
-}
+};

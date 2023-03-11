@@ -1,8 +1,7 @@
 .screen-block__screen{
     width: 100%;
-    max-width: 900px;
     min-height: 100px;
-    margin: 0 30px;
+    margin: 0 10px;
     background-color: white;
     border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 10px;
@@ -15,7 +14,7 @@
     color: black;
     font-size: 42px;
     line-height: 44px;
-    font-weight: 700;
+    font-weight: 900;
 }
 
 .screen-block__next{
@@ -25,7 +24,7 @@
     color: white;
     font-size: 42px;
     line-height: 44px;
-    font-weight: 700;
+    font-weight: 900;
 }
 
 .screen-block__future{
@@ -34,17 +33,33 @@
     color: gray;
     font-size: 42px;
     line-height: 44px;
-    font-weight: 700;
+    font-weight: 900;
 }
 
 .screen-block__content{
     list-style-type: none;
     margin: 0;
-    padding: 0;
+    padding: 0;    
 }
 
 .screen-block__string{
     display: flex;
     flex-direction: row;
     margin: 10px;
+    max-width: 400px;
+}
+
+.about{
+    margin: 0 0 0 10px;
+    padding: 0;
+    color: black;
+    font-size: 28px;
+    line-height: 30px;
+    font-weight: 400;
+    max-width: 600px;
+}
+
+.text-invisible{
+    background-color: white;
+    color: white;
 }
