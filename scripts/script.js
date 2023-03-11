@@ -1,6 +1,6 @@
 const lessons = {
-    1: 'SdSDdsSDs',
-    2: '111111111',
+    1: "fff fsf ssfs ffsffff fsf ssfs ffsffff fsf ssfs ffsffff fsf ssfs ffsf",
+    2: '11 111 1111',
     3: 'sssssssss',
     4: '1111111111'
 };
@@ -13,6 +13,11 @@ let letterNext = {
     key: '',
     shiftEnable: false
 };
+
+
+
+
+
 
 
 const checkKeyAndNextLetter = (item) => {
@@ -88,11 +93,11 @@ const getPressedKeyObject = (item) => {
 
 
 function handleKey (evt) {
+
     if (checkNumButton()) {
         if (letterNext.shiftEnable === true) {
             if ((evt.key.toLowerCase() === letterNext.key) && (evt.shiftKey === true)) {
                 changeNextKey();
-                console.log(letterNext.key);
             } 
             else {        
                 wrongNextKey(evt.key);            
@@ -101,7 +106,6 @@ function handleKey (evt) {
         else {
             if (evt.key === letterNext.key) {
                 changeNextKey();
-                console.log(letterNext.key);
             } 
             else {        
                 wrongNextKey(evt.key);            
@@ -127,8 +131,23 @@ function setHandleKey() {
     document.addEventListener("keydown", handleKey);
 };
 
+
+
+function checkLetterNext(item) {
+    if ((item !== ',') && (item !== '.') && (item !== '/') && (item !== '-') && (item !== '=') && (item !== '[')
+    && (item !== ']') && (item !== ';') && (item !== '*') && (item !== "'")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 function checkUpperCase(symbol) {
-    if (symbol.key === symbol.key.toUpperCase()) {
+    letterNext.int = Number(symbol.key[0]);
+    
+    if ((symbol.key === symbol.key.toUpperCase()) && (Number.isInteger(letterNext.int) !== true) && (checkLetterNext(letterNext.key) === true)) {      
+    console.log('letterNext.int');
     symbol.key = symbol.key.toLowerCase()
     symbol.shiftEnable = true;    
     }
