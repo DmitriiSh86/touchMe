@@ -1,18 +1,40 @@
 const lessons = {
     1: {
-        name: 'individual',
+        name: 'Ssssss',
         about: 'a particular being or thing as distinguished from a class, species, or collection'
     },
     2: {
-        name: 'specific', 
+        name: '22', 
         about: 'sharing or being those properties of something that allow it to be referred to a particular category'
     },
     3: {
-        name: 'principle',
+        name: '33',
+        about: 'a comprehensive and fundamental law, doctrine, or assumption'
+    },
+    4: {
+        name: '44',
+        about: 'a particular being or thing as distinguished from a class, species, or collection'
+    },
+    5: {
+        name: '55', 
+        about: 'sharing or being those properties of something that allow it to be referred to a particular category'
+    },
+    6: {
+        name: '66',
         about: 'a comprehensive and fundamental law, doctrine, or assumption'
     }
     
 };
+
+const textPastOne = document.querySelector('.after-1');
+const textPastTwo = document.querySelector('.after-2');
+const textPastThree = document.querySelector('.after-3');
+const textBeforeOne = document.querySelector('.before-1');
+const textBeforeTwo = document.querySelector('.before-2');
+const textBeforeThree = document.querySelector('.before-3');
+
+
+
 
 const textAbout = document.querySelector('.about');
 const textFuture = document.querySelector('.screen-block__future');
@@ -21,21 +43,30 @@ const textNext = document.querySelector('.screen-block__next');
 const text = document.querySelectorAll('.text');
 const buttonShiftLeft = document.getElementById('Shift-left');
 const buttonShiftRight = document.getElementById('Shift-right');
+
+
 let letterNext = {
     key: '',
-    shiftEnable: false
+    shiftEnable: false,
+    isNumber: false,
+    specSymbol: false,
+    last: false
 };
 
-let i =1;
+function removeHandleKey() {
+    document.removeEventListener("keydown", handleKey);
+};
 
-let lesson = setUpLesson(lessons, i);
+function setHandleKey() {
+    document.addEventListener("keydown", handleKey);
+};
 
+function setBackgroundNextKey(letterNext) {
+    const nextKeyAddClass = document.getElementById(letterNext.key);
+    nextKeyAddClass.classList.add('keyboard-block__type_next-key');
 
-function setBackgroundNextKey(item, shift) {
-    item.classList.add('keyboard-block__type_next-key');
-
-    if (shift.shiftEnable === true)  {
-        if (item.classList.contains('left')) {
+    if (letterNext.shiftEnable === true)  {
+        if (nextKeyAddClass.classList.contains('left')) {
             buttonShiftLeft.classList.add('keyboard-block__type_next-key');
         } else {
             buttonShiftRight.classList.add('keyboard-block__type_next-key');
@@ -43,33 +74,97 @@ function setBackgroundNextKey(item, shift) {
     }
 };
 
-const removeBackgroundNextKey = (item, shift) => {
-    item.classList.remove('keyboard-block__type_next-key');
-    if (shift.shiftEnable === true) {
-        shift.shiftEnable = false;
+function removeBackgroundNextKey(letterNext) {
+    const now = document.getElementById(letterNext.key);
+    now.classList.remove('keyboard-block__type_next-key');
+    if (letterNext.shiftEnable === true) {
+        letterNext.shiftEnable = false;
         if (buttonShiftRight.classList.contains('keyboard-block__type_next-key')) {
             buttonShiftRight.classList.remove('keyboard-block__type_next-key');
         } else {
             buttonShiftLeft.classList.remove('keyboard-block__type_next-key');
-        }        
+        }
     }
 }
 
-const checkNumButton = () => {
-    return lesson.length >=1;
+function compareKey(evtKey, letterNext) {
+    if (letterNext.shiftEnable === true) {
+        if ((evtKey.key.toLowerCase() === letterNext.key) && (evtKey.shiftKey === true)) {
+            return true;
+        } 
+        else {        
+            return false;
+        }
+    }
+    else {
+        if (evtKey.key === letterNext.key) {
+            return true;
+        } 
+        else {        
+            return false;            
+        } 
+    }              
+}
+
+function setUpLesson(lessonsList, i) {
+    setHandleKey();
+    if (i <= Object.keys(lessonsList).length) {        
+        let lesson = lessonsList[i].name;
+        getLetterNext(lesson);
+        
+        textNext.textContent = lesson[0];
+        lesson = lesson.slice(1);
+        textPast.textContent = '';
+        textFuture.textContent = lesson;        
+        setBackgroundNextKey(letterNext);
+        return lesson;
+    }
+    else {
+        removeHandleKey();
+    }
 };
 
-const changeNextKey = () => {
-    const now = document.getElementById(letterNext.key);
-    removeBackgroundNextKey(now, letterNext);
-    textPast.textContent = textPast.textContent.concat(textNext.textContent);
-    textNext.textContent = lesson[0];
-    letterNext.key = textNext.textContent;
-    checkUpperCase(letterNext);
-    const next = document.getElementById(letterNext.key);
-    setBackgroundNextKey(next, letterNext);
-    lesson = lesson.slice(1);        
-    textFuture.textContent = lesson;
+
+let i = 1;
+let lesson = setUpLesson(lessons, i);
+
+
+
+
+function getLetterNext(lesson) {    
+    letterNext.key = lesson[0];
+    const num = Number(letterNext.key[0]);
+    letterNext.isNumber = Number.isInteger(num);
+
+    if ((letterNext.key !== ',') && (letterNext.key !== '.') && (letterNext.key !== '/') && (letterNext.key !== '-') && (letterNext.key !== '=') && (letterNext.key !== '[')
+    && (letterNext.key !== ']') && (letterNext.key !== ';') && (letterNext.key !== '*') && (letterNext.key !== "'")) {
+        letterNext.specSymbol = false;
+    } else {
+        letterNext.specSymbol = true;
+    }
+    
+    if ((letterNext.key === letterNext.key.toUpperCase()) && (letterNext.isNumber !== true) && (letterNext.specSymbol !== true)) {
+        letterNext.key = letterNext.key.toLowerCase()
+        letterNext.shiftEnable = true;
+    }
+    else {
+        letterNext.shiftEnable = false;
+    }
+
+    if (lesson.length === 1) {
+        letterNext.last = true;
+    } else {
+        letterNext.last = false;
+    }    
+}
+const changeNextKey = () => {        
+        removeBackgroundNextKey(letterNext);
+        textPast.textContent = textPast.textContent.concat(textNext.textContent);
+        textNext.textContent = lesson[0];
+        getLetterNext(lesson);
+        setBackgroundNextKey(letterNext);
+        lesson = lesson.slice(1);        
+        textFuture.textContent = lesson;
 }
 
 const wrongNextKey = (key) => {
@@ -88,13 +183,7 @@ const wrongNextKey = (key) => {
     }
 }
 
-function removeHandleKey() {
-    document.removeEventListener("keydown", handleKey);
-};
 
-function setHandleKey() {
-    document.addEventListener("keydown", handleKey);
-};
 
 function handleKey (evt) {
     if (evt.key === '`') {
@@ -103,73 +192,17 @@ function handleKey (evt) {
             element.classList.toggle('text-invisible');                       
     });
     }
-    if (checkNumButton()) {
-        if (letterNext.shiftEnable === true) {
-            if ((evt.key.toLowerCase() === letterNext.key) && (evt.shiftKey === true)) {
-                changeNextKey();
-            } 
-            else {        
-                wrongNextKey(evt.key);            
-            }
-        }
-        else {
-            if (evt.key === letterNext.key) {
-                changeNextKey();
-            } 
-            else {        
-                wrongNextKey(evt.key);            
-            } 
-        }              
-    } 
-    else {
-            const now = document.getElementById(letterNext.key);
-            removeBackgroundNextKey(now, letterNext);
+
+    if (compareKey(evt, letterNext) === true) {
+        if (letterNext.last === false) {
+            changeNextKey();
+        } else {
+            removeBackgroundNextKey(letterNext);
             i=i+1;
             lesson = setUpLesson(lessons, i);
-            
-            const next = document.getElementById(letterNext.key);
-            setBackgroundNextKey(next, letterNext);        
-    }
-};
-
-function checkLetterNext(item) {
-    if ((item !== ',') && (item !== '.') && (item !== '/') && (item !== '-') && (item !== '=') && (item !== '[')
-    && (item !== ']') && (item !== ';') && (item !== '*') && (item !== "'")) {
-        return true;
+            setBackgroundNextKey(letterNext);
+        }
     } else {
-        return false;
-    }
-};
-
-function checkUpperCase(symbol) {
-    letterNext.int = Number(symbol.key[0]);
-    
-    if ((symbol.key === symbol.key.toUpperCase()) && (Number.isInteger(letterNext.int) !== true) && (checkLetterNext(letterNext.key) === true)) {
-        symbol.key = symbol.key.toLowerCase()
-        symbol.shiftEnable = true;
-    }
-    else {
-        symbol.shiftEnable = false;
-        return symbol;
-    }
-};
-
-function setUpLesson(lessonsList, i) {
-    setHandleKey();
-    if (i <= Object.keys(lessonsList).length) {        
-        let lesson = lessonsList[i].name;
-        textAbout.textContent = lessonsList[i].about;
-        textNext.textContent = lesson[0];
-        lesson = lesson.slice(1);
-        textPast.textContent = '';
-        textFuture.textContent = lesson;
-        letterNext.key = textNext.textContent;
-        checkUpperCase(letterNext);
-        let nextKeyAddClass = document.getElementById(letterNext.key);
-        setBackgroundNextKey(nextKeyAddClass, letterNext);
-        return lesson;
-    }
-    else {
-        removeHandleKey();
+        wrongNextKey(evt.key);
     }
 };
