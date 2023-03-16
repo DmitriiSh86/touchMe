@@ -1,37 +1,75 @@
 const lessons = {
-    1: {
-        name: 'Ssssss',
-        about: 'a particular being or thing as distinguished from a class, species, or collection'
-    },
-    2: {
-        name: '22', 
-        about: 'sharing or being those properties of something that allow it to be referred to a particular category'
-    },
-    3: {
-        name: '33',
-        about: 'a comprehensive and fundamental law, doctrine, or assumption'
-    },
-    4: {
-        name: '44',
-        about: 'a particular being or thing as distinguished from a class, species, or collection'
-    },
-    5: {
-        name: '55', 
-        about: 'sharing or being those properties of something that allow it to be referred to a particular category'
-    },
-    6: {
-        name: '66',
-        about: 'a comprehensive and fundamental law, doctrine, or assumption'
-    }
+    1: 'sharing or being those properties',
+    2: 'that allow it to be referred',
+    3: 'a comprehensive and fundamental law',
+    4: 'a particular being or thing',
+    5: 'from a class, species, or collection',
+    6: 'a comprehensive and fundamental law',
     
 };
 
-const textPastOne = document.querySelector('.after-1');
-const textPastTwo = document.querySelector('.after-2');
-const textPastThree = document.querySelector('.after-3');
+const textAfterOne = document.querySelector('.after-1');
+const textAfterTwo = document.querySelector('.after-2');
+const textAfterThree = document.querySelector('.after-3');
 const textBeforeOne = document.querySelector('.before-1');
 const textBeforeTwo = document.querySelector('.before-2');
 const textBeforeThree = document.querySelector('.before-3');
+
+const len = Object.keys(lessons).length;
+
+function setStringOne(lessonList){
+    textAfterOne.textContent = lessonList[2];
+    textAfterTwo.textContent = lessonList[3];
+    textAfterThree.textContent = lessonList[4];
+}
+
+function setStringTwo(lessonsList){
+    textBeforeOne.textContent = lessonsList[1];
+    textAfterOne.textContent = '';
+}
+
+function setStringThree(lessonsList){
+    textBeforeTwo.textContent = lessonsList[2];
+    textAfterTwo.textContent = '';
+}
+
+function setStringFour(lessonsList){
+    textBeforeThree.textContent = lessonsList[3];
+    textAfterThree.textContent = '';
+}
+
+function setStringOther(lessonsList, i){
+    textBeforeOne.textContent = lessonsList[i - 3];
+    textBeforeTwo.textContent = lessonsList[i - 2];
+    textBeforeThree.textContent = lessonsList[i - 1];
+}
+
+function changeString(lessonsList, i){
+        if (i === 1) {
+            setStringOne(lessonsList)
+        };
+        if (i === 2) {
+            setStringTwo(lessonsList)
+        };
+        if (i === 3) {
+            setStringThree(lessonsList)
+        };
+        if (i === 4) {
+            setStringFour(lessonsList)
+        };
+        if (i > 4) {
+            setStringOther(lessonsList, i);
+        };
+}
+
+function theEnd() {
+    textBeforeOne.textContent = '';
+    textBeforeTwo.textContent = '';
+    textBeforeThree.textContent = '';
+    textNext.textContent = '';
+    textPast.textContent = '';
+    textFuture.textContent = 'The end!';
+}
 
 
 
@@ -108,10 +146,12 @@ function compareKey(evtKey, letterNext) {
 
 function setUpLesson(lessonsList, i) {
     setHandleKey();
-    if (i <= Object.keys(lessonsList).length) {        
-        let lesson = lessonsList[i].name;
+    
+    if (i <= Object.keys(lessonsList).length) {  
+        changeString(lessonsList, i)      
+        let lesson = lessonsList[i];
         getLetterNext(lesson);
-        
+        console.log(i); 
         textNext.textContent = lesson[0];
         lesson = lesson.slice(1);
         textPast.textContent = '';
@@ -168,20 +208,29 @@ const changeNextKey = () => {
 }
 
 const wrongNextKey = (key) => {
-    if ((key === "Shift") && (letterNext.shiftEnable === true)) {
+    if ((key.key === "Shift") && (letterNext.shiftEnable === true)) {
 
     }
     else {
-    let errorButton = document.getElementById(key);
-    errorButton.classList.add('keyboard-block__type_wrong-key');   
+        if (key.key === "Shift") {
+            if (key.code === 'ShiftLeft') {
+                buttonShiftLeft.classList.add('keyboard-block__type_wrong-key');
+            } else {
+                buttonShiftRight.classList.add('keyboard-block__type_wrong-key');
+            }
+        } else {
+            const errorButton = document.getElementById(key.key);
+            errorButton.classList.add('keyboard-block__type_wrong-key');            
+        }
+    }
     document.addEventListener('keyup', function (evt){
-        let errorButtonRemove = document.querySelector('.keyboard-block__type_wrong-key');                
+        const errorButtonRemove = document.querySelector('.keyboard-block__type_wrong-key');                
         if (errorButtonRemove !== null){            
             errorButtonRemove.classList.remove('keyboard-block__type_wrong-key');
             }
         });
-    }
 }
+
 
 
 
@@ -192,17 +241,20 @@ function handleKey (evt) {
             element.classList.toggle('text-invisible');                       
     });
     }
-
     if (compareKey(evt, letterNext) === true) {
         if (letterNext.last === false) {
             changeNextKey();
         } else {
             removeBackgroundNextKey(letterNext);
-            i=i+1;
-            lesson = setUpLesson(lessons, i);
-            setBackgroundNextKey(letterNext);
+            if (i !== len) {
+                i=i+1;
+                lesson = setUpLesson(lessons, i);
+            } else {
+                theEnd();
+                removeHandleKey();
+            }
         }
     } else {
-        wrongNextKey(evt.key);
+        wrongNextKey(evt);
     }
 };
