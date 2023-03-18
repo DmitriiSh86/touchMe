@@ -11,8 +11,8 @@
 
 
 .keyboard-block__letter{
-    width: 75px;
-    height: 74.4px;
+    width: 61px;
+    height: 58.4px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     color: black;
@@ -33,21 +33,21 @@
 }
 
 .letter-long-tab{
-    width: 112px;
+    width: 92px;
 }
 
 .letter-long-bsp{
-    width: 114px;
+    width: 92px;
 }
 
 .letter-long-capslock{
-    width: 132px;
+    width: 108px;
 }
 
 .letter-long-shift{
-    width: 171.4px;
+    width: 140px;
 }
 
 .keyboard-block__space{
-    width: 576px;
+    width: 472px;
 }

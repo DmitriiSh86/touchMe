@@ -1,3 +1,42 @@
+const textarea = document.querySelector("textarea"),
+    voiceList = document.querySelector("select"),
+    speechBtn = document.querySelector(".buttonSpeech");
+
+let synth = speechSynthesis,
+    isSpeaking = true;
+
+voices();
+
+function voices() {
+    for (let voice of synth.getVoices()) {
+        let selected = voice.name === "Google US English" ? "selected" : "";
+        let option = `<option value="${voice.name}" ${selected}>${voice.name} (${voice.lang})</option>`;
+        voiceList.insertAdjacentHTML("beforeend", option);
+    }
+}
+
+synth.addEventListener("voiceschanged", voices);
+
+function textToSpeech(text) {
+    let utterance = new SpeechSynthesisUtterance(text);
+    for (let voice of synth.getVoices()) {
+        if (voice.name === voiceList.value) {
+            utterance.voice = voice;
+        }
+    }
+    synth.speak(utterance);
+}
+
+speechBtn.addEventListener("click", function () {
+    textToSpeech(lessons[i]);
+    });
+    
+
+
+
+
+
+
 const lessons = {
     1: 'sharing or being those properties',
     2: 'that allow it to be referred',
@@ -69,6 +108,9 @@ function theEnd() {
     textNext.textContent = '';
     textPast.textContent = '';
     textFuture.textContent = 'The end!';
+    if (textFuture.classList.contains('text-invisible')) {
+        textFuture.classList.remove('text-invisible');
+    };
 }
 
 
@@ -146,17 +188,16 @@ function compareKey(evtKey, letterNext) {
 
 function setUpLesson(lessonsList, i) {
     setHandleKey();
-    
     if (i <= Object.keys(lessonsList).length) {  
         changeString(lessonsList, i)      
         let lesson = lessonsList[i];
         getLetterNext(lesson);
-        console.log(i); 
         textNext.textContent = lesson[0];
         lesson = lesson.slice(1);
         textPast.textContent = '';
         textFuture.textContent = lesson;        
         setBackgroundNextKey(letterNext);
+        
         return lesson;
     }
     else {
@@ -167,9 +208,6 @@ function setUpLesson(lessonsList, i) {
 
 let i = 1;
 let lesson = setUpLesson(lessons, i);
-
-
-
 
 function getLetterNext(lesson) {    
     letterNext.key = lesson[0];
@@ -235,6 +273,9 @@ const wrongNextKey = (key) => {
 
 
 function handleKey (evt) {
+    if (evt.key === 'Enter') {
+        textToSpeech(lessons[i]);                            
+    };
     if (evt.key === '`') {
         const list = Array.from(document.querySelectorAll('.text'));
         list.forEach((element) => {
@@ -249,6 +290,7 @@ function handleKey (evt) {
             if (i !== len) {
                 i=i+1;
                 lesson = setUpLesson(lessons, i);
+                textToSpeech(lessons[i]);
             } else {
                 theEnd();
                 removeHandleKey();
@@ -258,3 +300,5 @@ function handleKey (evt) {
         wrongNextKey(evt);
     }
 };
+
+
