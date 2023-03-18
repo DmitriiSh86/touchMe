@@ -38,7 +38,7 @@
     height: 52px;
     color: #fff;
     font-size: 17px;
-    background-color: #675afe;
+    background-color: #9890f9;
     cursor: pointer;
     transition: 0.3s ease;
     box-sizing: border-box;
@@ -46,5 +46,5 @@
 }
 
 .box-button:hover{
-    background-color: #4534fe;
+    background-color: #7972c3;
 }

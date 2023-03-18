@@ -1,5 +1,6 @@
 const voiceList = document.querySelector("select"),
     speechBtn = document.querySelector(".box-button-speech");
+    
 
 let synth = speechSynthesis,
     isSpeaking = true;
@@ -26,13 +27,52 @@ function textToSpeech(text) {
     synth.speak(utterance);
 }
 
-speechBtn.addEventListener("click", function () {
+speechBtn.addEventListener("click", function () {    
     textToSpeech(lessons[i]);
-    });
+    speechBtn.blur();
+});
+
+
+const invisibleBtn = document.querySelector(".box-button-invisible");
+const nextBtn = document.querySelector(".box-button-next");
+const colorBtn = document.querySelector(".box-button-color");
+
+const allLetterButton = Array.from(document.querySelectorAll('.keyboard-block__letter'));
+const allNumButton = Array.from(document.querySelectorAll('.keyboard-block__num'));
+let nextKeyTips = true;
+
+
+invisibleBtn.addEventListener("click", function () {
+    invisible();
+    invisibleBtn.blur();
+});
+
+nextBtn.addEventListener("click", function () {
+    if (nextKeyTips === true) {
+        nextKeyTips = false;
+        removeBackgroundNextKey(letterNext);
+    } else {
+        nextKeyTips = true;
+        setBackgroundNextKey(letterNext);
+    }
+    nextBtn.blur();
+});
     
+colorBtn.addEventListener("click", function () {
+    noColor();
+    colorBtn.blur();
+});
 
 
 
+function noColor() {
+    allLetterButton.forEach((element) => {
+        element.classList.toggle('no-color');                       
+});
+    allNumButton.forEach((element) => {
+        element.classList.toggle('no-color');                       
+});
+}
 
 
 
@@ -54,6 +94,15 @@ const textBeforeTwo = document.querySelector('.before-2');
 const textBeforeThree = document.querySelector('.before-3');
 
 const len = Object.keys(lessons).length;
+
+
+const listText = Array.from(document.querySelectorAll('.text'));
+
+function invisible() {
+    listText.forEach((element) => {
+        element.classList.toggle('text-invisible');                       
+});
+}
 
 function setStringOne(lessonList){
     textAfterOne.textContent = lessonList[2];
@@ -141,14 +190,16 @@ function setHandleKey() {
 };
 
 function setBackgroundNextKey(letterNext) {
-    const nextKeyAddClass = document.getElementById(letterNext.key);
-    nextKeyAddClass.classList.add('keyboard-block__type_next-key');
+    if (nextKeyTips === true) {
+        const nextKeyAddClass = document.getElementById(letterNext.key);
+        nextKeyAddClass.classList.add('keyboard-block__type_next-key');
 
-    if (letterNext.shiftEnable === true)  {
-        if (nextKeyAddClass.classList.contains('left')) {
-            buttonShiftLeft.classList.add('keyboard-block__type_next-key');
-        } else {
-            buttonShiftRight.classList.add('keyboard-block__type_next-key');
+        if (letterNext.shiftEnable === true)  {
+            if (nextKeyAddClass.classList.contains('left')) {
+                buttonShiftLeft.classList.add('keyboard-block__type_next-key');
+            } else {
+                buttonShiftRight.classList.add('keyboard-block__type_next-key');
+            }
         }
     }
 };
@@ -270,16 +321,12 @@ const wrongNextKey = (key) => {
 
 
 
-
 function handleKey (evt) {
     if (evt.key === 'Enter') {
         textToSpeech(lessons[i]);                            
     };
     if (evt.key === '`') {
-        const list = Array.from(document.querySelectorAll('.text'));
-        list.forEach((element) => {
-            element.classList.toggle('text-invisible');                       
-    });
+        invisible();        
     }
     if (compareKey(evt, letterNext) === true) {
         if (letterNext.last === false) {

@@ -156,7 +156,11 @@
     background-color: #FFCC99;
 }
 
+.no-color{
+    background-color: rgb(241, 238, 238);
+}
+
 .keyboard-block__type_wrong-key{
-    background-color: red;
-    color: white;
+    background-color: rgb(246, 100, 100);
+    color: rgb(240, 235, 235);
 }
