@@ -12,9 +12,10 @@
     margin: 0;
     padding: 0;
     color: black;
-    font-size: 42px;
-    line-height: 44px;
+    font-size: 36px;
+    line-height: 40px;
     font-weight: 900;
+    letter-spacing: -2px;
 }
 
 .screen-block__next{
@@ -22,18 +23,20 @@
     padding: 0;
     background-color: black;
     color: white;
-    font-size: 42px;
-    line-height: 44px;
+    font-size: 36px;
+    line-height: 40px;
     font-weight: 900;
+    letter-spacing: -2px;
 }
 
 .screen-block__future{
     margin: 0;
     padding: 0;
     color: gray;
-    font-size: 42px;
-    line-height: 44px;
+    font-size: 36px;
+    line-height: 40px;
     font-weight: 900;
+    letter-spacing: -2px;
 }
 
 .screen-block__content{
@@ -54,11 +57,15 @@
     margin: 0 0 0 10px;
     padding: 0;
     color: gray;
-    font-size: 42px;
-    line-height: 44px;
+    font-size: 36px;
+    line-height: 40px;
     font-weight: 900;
+    letter-spacing: -2px;
 }
 
+.about_past{
+    color: black;
+}
 
 
 .text-invisible{

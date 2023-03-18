@@ -1,6 +1,5 @@
-const textarea = document.querySelector("textarea"),
-    voiceList = document.querySelector("select"),
-    speechBtn = document.querySelector(".buttonSpeech");
+const voiceList = document.querySelector("select"),
+    speechBtn = document.querySelector(".box-button-speech");
 
 let synth = speechSynthesis,
     isSpeaking = true;
